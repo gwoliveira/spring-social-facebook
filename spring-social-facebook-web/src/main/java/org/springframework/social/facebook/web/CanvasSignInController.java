@@ -35,6 +35,7 @@ import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -95,8 +96,8 @@ public class CanvasSignInController {
 		this.scope = scope;
 	}
 
-	@RequestMapping(method=RequestMethod.POST)
-	public View signin(Model model, NativeWebRequest request) throws SignedRequestException {
+	@RequestMapping(value="/{postSignInUrl}", method=RequestMethod.POST)
+	public View signin(@PathVariable("postSignInUrl") String postSignInUrl, Model model, NativeWebRequest request) throws SignedRequestException {
 		String signedRequest = request.getParameter("signed_request");
 		if (signedRequest == null) {
 			logger.info("Expected a signed_request parameter, but none given. Redirecting to the application's Canvas Page: " + canvasPage);
@@ -121,7 +122,9 @@ public class CanvasSignInController {
 		Connection<Facebook> connection = connectionFactory.createConnection(accessGrant);
 		handleSignIn(connection, request);
 		logger.info("Signed in. Redirecting to post-signin page.");
-		return new RedirectView(postSignInUrl, true); 
+		
+
+		return new RedirectView("/"+postSignInUrl, true); 
 	}
 
 	
