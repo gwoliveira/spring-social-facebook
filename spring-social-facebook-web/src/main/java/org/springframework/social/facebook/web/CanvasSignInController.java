@@ -95,7 +95,10 @@ public class CanvasSignInController {
 	public void setScope(String scope) {
 		this.scope = scope;
 	}
-
+	@RequestMapping(method=RequestMethod.POST)
+	public View signin(Model model, NativeWebRequest request) throws SignedRequestException {
+		return signin(postSignInUrl, model, request);
+	}
 	@RequestMapping(value="/{postSignInUrl}", method=RequestMethod.POST)
 	public View signin(@PathVariable("postSignInUrl") String postSignInUrl, Model model, NativeWebRequest request) throws SignedRequestException {
 		String signedRequest = request.getParameter("signed_request");
