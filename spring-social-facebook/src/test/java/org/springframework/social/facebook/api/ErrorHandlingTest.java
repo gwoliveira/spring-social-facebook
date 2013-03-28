@@ -67,7 +67,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withStatus(HttpStatus.FORBIDDEN).body(jsonResource("testdata/error-user-hasnt-authorized")).contentType(MediaType.APPLICATION_JSON));
-			facebook.feedOperations().postLink("Test message", new FacebookLink("http://test.com", "Test", "Test this", "Testing some stuff"));
+			facebook.feedOperations().postLink("Test message", new FacebookLink("http://test.com", "Test", "Test this", "Testing some stuff","http://test.com"));
 			fail();
 		} catch (InsufficientPermissionException e) {
 			assertEquals("Insufficient permission for this operation.", e.getMessage());

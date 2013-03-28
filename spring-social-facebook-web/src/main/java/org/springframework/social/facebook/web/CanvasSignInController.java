@@ -66,7 +66,7 @@ public class CanvasSignInController {
 	
 	private final SignedRequestDecoder signedRequestDecoder;
 	
-	private String postSignInUrl = "/";
+	private String postSignInUrl = "";
 
 	private String scope;
 
@@ -99,6 +99,13 @@ public class CanvasSignInController {
 	public View signin(Model model, NativeWebRequest request) throws SignedRequestException {
 		return signin(postSignInUrl, model, request);
 	}
+	
+	@RequestMapping(value="/{postSignInUrl}/{inner}", method=RequestMethod.POST)
+	public View signin(@PathVariable String postSignInUrl,@PathVariable String inner, Model model, NativeWebRequest request) throws SignedRequestException {
+		return signin(postSignInUrl + "/" + inner, model, request);
+		
+	}
+	
 	@RequestMapping(value="/{postSignInUrl}", method=RequestMethod.POST)
 	public View signin(@PathVariable("postSignInUrl") String postSignInUrl, Model model, NativeWebRequest request) throws SignedRequestException {
 		String signedRequest = request.getParameter("signed_request");

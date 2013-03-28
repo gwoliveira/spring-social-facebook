@@ -171,7 +171,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
-		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
+		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description","some image");
 		assertEquals("123456_78901234", facebook.pageOperations().post("987654321", "Hello Facebook World", link));
 		mockServer.verify();
 	}
@@ -179,13 +179,13 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 	@Test(expected = PageAdministrationException.class)
 	public void postLink_notAdmin() throws Exception {
 		expectFetchAccounts();
-		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
+		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description","some image");
 		facebook.pageOperations().post("2468013579", "Hello Facebook World", link);
 	}
 
 	@Test(expected = NotAuthorizedException.class)
 	public void postLink_unauthorized() {
-		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
+		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description","some image");
 		unauthorizedFacebook.pageOperations().post("2468013579", "Hello Facebook World", link);
 	}
 

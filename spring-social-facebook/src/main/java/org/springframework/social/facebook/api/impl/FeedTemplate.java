@@ -238,6 +238,7 @@ class FeedTemplate extends AbstractFacebookOperations implements FeedOperations 
 		map.set("name", link.getName());
 		map.set("caption", link.getCaption());
 		map.set("description", link.getDescription());
+		map.set("picture", link.getPicture());
 		map.set("message", message);
 		return graphApi.publish(ownerId, "feed", map);
 	}

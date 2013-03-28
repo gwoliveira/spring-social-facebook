@@ -491,37 +491,37 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void post_link() throws Exception {
-		String requestBody = "link=someLink&name=some+name&caption=some+caption&description=some+description&message=Hello+Facebook+World";
+		String requestBody = "link=someLink&name=some+name&caption=some+caption&description=some+description&picture=some+image&message=Hello+Facebook+World";
 		mockServer.expect(requestTo("https://graph.facebook.com/me/feed")).andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
-		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
+		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description","some image");
 		assertEquals("123456_78901234", facebook.feedOperations().postLink("Hello Facebook World", link));
 		mockServer.verify();
 	}
 
 	@Test(expected = NotAuthorizedException.class)
 	public void postLink_unauthorized() {
-		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
+		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description","some image");
 		unauthorizedFacebook.feedOperations().postLink("Hello Facebook World", link);
 	}
 
 	@Test
 	public void post_link_toAnotherFeed() throws Exception {
-		String requestBody = "link=someLink&name=some+name&caption=some+caption&description=some+description&message=Hello+Facebook+World";
+		String requestBody = "link=someLink&name=some+name&caption=some+caption&description=some+description&picture=some+image&message=Hello+Facebook+World";
 		mockServer.expect(requestTo("https://graph.facebook.com/123456789/feed")).andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
-		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
+		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description","some image");
 		assertEquals("123456_78901234", facebook.feedOperations().postLink("123456789", "Hello Facebook World", link));
 		mockServer.verify();
 	}
 
 	@Test(expected = NotAuthorizedException.class)
 	public void postLink_toAnotherFeed_unauthorized() {
-		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
+		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description","some image");
 		unauthorizedFacebook.feedOperations().postLink("123456789", "Hello Facebook World", link);
 	}
 
